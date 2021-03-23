@@ -15,7 +15,13 @@ const user_get = (req, res) => {
   res.json(user);
 };
 
+const user_create_post = (req, res) => {
+  console.log(req.body);
+  res.send('From this endpoint you can post users.');
+};
+
 module.exports = {
   user_list_get,
   user_get,
+  user_create_post,
 };
