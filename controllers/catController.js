@@ -16,7 +16,8 @@ const cat_get = (req, res) => {
 };
 
 const cat_create_post = (req, res) => {
-  console.log(req.body);
+  console.log('text data', req.body);
+  console.log('file data', req.file);
   res.send('From this endpoint you can post cats.');
 };
 
