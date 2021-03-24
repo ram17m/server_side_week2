@@ -1,13 +1,16 @@
 'use strict';
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
+const passportJWT = require('passport-jwt');
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
+
 const {getUserLogin} = require('../models/userModel');
 
 passport.use(
   new Strategy((username, password, done) => {
     // get user by username from getUserLogin
     const user = getUserLogin(username);
-    console.log(user);
     // if user is undefined
     if (user === undefined) {
       return done(null, false);
@@ -21,6 +24,17 @@ passport.use(
     // if all is ok
     return done(null, user.id);
   })
+);
+passport.use(
+  new JWTStrategy(
+    {
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      secretOrKey: '1234',
+    },
+    (jwtPayload, done) => {
+      return done(null, jwtPayload);
+    }
+  )
 );
 
 module.exports = passport;
