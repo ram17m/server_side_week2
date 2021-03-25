@@ -1,5 +1,4 @@
 'use strict';
-const {json} = require('express');
 const jwt = require('jsonwebtoken');
 const passport = require('../utils/pass');
 
@@ -8,16 +7,16 @@ const login = (req, res) => {
   passport.authenticate('local', {session: false}, (err, user, info) => {
     console.log('login info', info);
     if (err || !user) {
-      return res.send('err');
+      return res.send('error');
     }
 
     req.login(user, {session: false}, (err) => {
       if (err) {
-        return res.send('err');
+        return res.send('error');
       }
 
       const token = jwt.sign(user, '1234');
-      return res.json(token);
+      return res.json({token});
     });
   })(req, res);
 };
